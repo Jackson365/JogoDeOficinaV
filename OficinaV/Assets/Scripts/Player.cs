@@ -7,9 +7,13 @@ public class Player : MonoBehaviour
 {
     public float speed;
     public float jumpForce;
+
+    public GameObject bow;
+    public Transform Firepoint;
     
     private bool isJumping;
     private bool doubleJump;
+    private bool isFire;
 
     private Rigidbody2D rig;
     private Animator anim;
@@ -26,6 +30,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Jump();
+        BowFire();
     }
 
     private void FixedUpdate()
@@ -74,7 +79,6 @@ public class Player : MonoBehaviour
                 rig.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
                 doubleJump = true;
                 isJumping = true;
-                doubleJump = false;
             }
             else
             {
@@ -87,6 +91,35 @@ public class Player : MonoBehaviour
             }
         }
     }
+    
+    void BowFire()
+        {
+            StartCoroutine("Fire");
+        }
+    
+        IEnumerator Fire()
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                isFire = true;
+                anim.SetInteger("transition", 3);
+                GameObject Bow = Instantiate(bow, Firepoint.position, Firepoint.rotation);
+    
+                if (transform.rotation.y == 0)
+                {
+                    Bow.GetComponent<Bow>().isRight = true;
+                }
+               
+                if (transform.rotation.y == 180)
+                {
+                    Bow.GetComponent<Bow>().isRight = false;
+                }
+               
+                yield return new WaitForSeconds(0.3f);
+                isFire = false;
+                anim.SetInteger("transition", 0);
+            }
+        }
     
     private void OnCollisionEnter2D(Collision2D coll)
     {
