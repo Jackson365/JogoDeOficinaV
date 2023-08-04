@@ -8,9 +8,10 @@ public class Enemy : MonoBehaviour
     public float walkTime;
 
     private bool walkRight = true;
-    
-    public int health;
 
+    public int health;
+    public int damage = 1;
+    
     private float timer;
     private Rigidbody2D rig;
     private Animator anim;
@@ -35,26 +36,33 @@ public class Enemy : MonoBehaviour
 
         if (walkRight)
         {
-            transform.eulerAngles = new Vector2(0, 180);
-            rig.velocity = Vector2.left * speed;
-        }
-        else
-        {
             transform.eulerAngles = new Vector2(0, 0);
             rig.velocity = Vector2.right * speed;
         }
-       
+        else
+        {
+            transform.eulerAngles = new Vector2(0, 180);
+            rig.velocity = Vector2.left * speed;
+        }
+        
     }
-    
+
     public void Damage(int vida)
     {
         health -= vida;
         anim.SetTrigger("hit");
 
         if(health <= 0)
-        {
-            Destroy(gameObject);
-        }
+            {
+                Destroy(gameObject);
+            }
+    }
 
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<Player>().Damage(damage);
+        }
     }
 }
