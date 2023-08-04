@@ -28,7 +28,15 @@ public class Bow : MonoBehaviour
         {
             rig.velocity = Vector2.left * speed;
         }
-       
+        
     }
-    
+
+    void OnTriggerEnter2D(Collider2D collison)
+    {
+        if(collison.gameObject.tag == "Enemy")
+        {
+            collison.GetComponent<Enemy>().Damage(damage);
+            Destroy(gameObject);
+        }
+    }
 }

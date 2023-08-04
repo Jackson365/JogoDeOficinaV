@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
 
     private bool walkRight = true;
     
+    public int health;
+
     private float timer;
     private Rigidbody2D rig;
     private Animator anim;
@@ -42,5 +44,17 @@ public class Enemy : MonoBehaviour
             rig.velocity = Vector2.right * speed;
         }
        
+    }
+    
+    public void Damage(int vida)
+    {
+        health -= vida;
+        anim.SetTrigger("hit");
+
+        if(health <= 0)
+        {
+            Destroy(gameObject);
+        }
+
     }
 }

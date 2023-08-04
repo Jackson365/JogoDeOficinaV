@@ -120,8 +120,8 @@ public class Player : MonoBehaviour
                 anim.SetInteger("transition", 0);
             }
         }
-    
-    private void OnCollisionEnter2D(Collision2D coll)
+
+        private void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.layer == 8)
         {
