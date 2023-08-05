@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rig;
     private Animator anim;
+    
+    public AudioSource tiro;
+    public AudioSource pulo;
 
     private float movement;
     // Start is called before the first frame update
@@ -82,6 +85,7 @@ public class Player : MonoBehaviour
                 rig.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
                 doubleJump = true;
                 isJumping = true;
+                pulo.Play();
             }
             else
             {
@@ -107,6 +111,7 @@ public class Player : MonoBehaviour
                 isFire = true;
                 anim.SetInteger("transition", 3);
                 GameObject Bow = Instantiate(bow, Firepoint.position, Firepoint.rotation);
+                tiro.Play();
     
                 if (transform.rotation.y == 0)
                 {
